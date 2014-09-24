@@ -1,0 +1,119 @@
+// Sketch Plugin: AEIconizer (ctrl shift i)
+// Source: github.com/tadija/AEIconizer
+// Version: 1.0
+
+// iOS icon sizes
+var iconSizes = [NSArray arrayWithObjects: 512, 76, 60, 40, 29, nil];
+
+// do stuff
+if (originalIcon = handleSelection()) {
+  if ([[originalIcon frame] width] == [[originalIcon frame] height]) {
+    [originalIcon setName: "Icon-Original"];
+    removeExistingIcons();
+    iconize(originalIcon);
+    [[doc currentView] centerLayersInCanvas];
+  } else {
+    [doc showMessage:"Oops, icon artboard must have same width and height"];
+  }
+}
+
+function handleSelection() {
+  var iconArtboard;
+
+  if([selection count] == 0) {
+    if ([[[doc currentPage] artboards] count] == 1) {
+      iconArtboard = [[[doc currentPage] artboards] firstObject];
+    } else {
+      [doc showMessage:"Oops, you have to select something"];
+    }
+  } else {
+    var currentSelection = selection[0];
+    if (currentSelection.className() == "MSArtboardGroup") {
+      iconArtboard = currentSelection;
+    } else {
+      iconArtboard = [currentSelection parentArtboard];
+      if (!iconArtboard) {
+        [doc showMessage:"Oops, selection has to be inside artboard"];
+      }
+    }
+    [currentSelection setIsSelected:false];
+  }
+
+  return iconArtboard
+}
+
+function removeExistingIcons() {
+  var artboards = [[doc currentPage] artboards];
+  var loop = [artboards objectEnumerator];
+  while (artboard = [loop nextObject]) {
+    var name = [artboard name];
+    var artboardNames = [NSArray arrayWithObjects:"Icon-29", "Icon-29@2x", "Icon-29@3x", "Icon-40", "Icon-40@2x", "Icon-40@3x", "Icon-60", "Icon-60@2x", "Icon-60@3x", "Icon-76", "Icon-76@2x", "Icon-76@3x", "iTunesArtwork-512", "iTunesArtwork-512@2x" , nil];
+    if ([artboardNames containsObject: name]) {
+      [[doc currentPage] removeLayer:artboard];
+    }
+  }
+}
+
+function iconize(originalIcon) {
+  var originalSize = [[originalIcon frame] width];
+  var originalX = [[originalIcon absoluteRect] rulerX];
+  var originalY = [[originalIcon absoluteRect] rulerY];
+  var spacing = 40;
+  var iconsRowHeight = 0;
+
+  var loop = [iconSizes objectEnumerator];
+  while (newSize = [loop nextObject]) {
+    if (newSize >= 512) {
+      var iconName = "iTunesArtwork-" + newSize;
+
+      var newX = originalX;
+      var newY = originalY + originalSize + spacing;
+
+      // iTunesArtwork-512@2x
+      var artwork2x = scaleIcon(originalIcon, (newSize * 2), iconName + "@2x");
+      [[artwork2x absoluteRect] setRulerX:newX];
+      [[artwork2x absoluteRect] setRulerY:newY];
+
+      // iTunesArtwork-512
+      var artwork1x = scaleIcon(originalIcon, newSize, iconName);
+      [[artwork1x absoluteRect] setRulerX:newX + (newSize * 2) + spacing];
+      [[artwork1x absoluteRect] setRulerY:newY];
+    } else {
+      var iconName = "Icon-" + newSize;
+
+      var newX = originalX + (1024 + 512 + (2 * spacing));
+      var newY = originalY + originalSize + iconsRowHeight + spacing;
+
+      // Icon-Size@3x
+      var icon3x = scaleIcon(originalIcon, newSize * 3, iconName + "@3x");
+      [[icon3x absoluteRect] setRulerX:newX];
+      [[icon3x absoluteRect] setRulerY:newY];
+
+      // Icon-Size@2x
+      var icon2x = scaleIcon(originalIcon, newSize * 2, iconName + "@2x");
+      [[icon2x absoluteRect] setRulerX:newX + (newSize * 3) + spacing];
+      [[icon2x absoluteRect] setRulerY:newY];
+
+      // Icon-Size
+      var icon1x = scaleIcon(originalIcon, newSize, iconName);
+      [[icon1x absoluteRect] setRulerX:newX + (newSize * 3) + (newSize * 2) + (2 * spacing)];
+      [[icon1x absoluteRect] setRulerY:newY];
+
+      // create new row
+      iconsRowHeight += (newSize * 3) + spacing;
+    }
+  }
+}
+
+function scaleIcon(originalIcon, newSize, newName) {
+  var newIcon = [originalIcon duplicate];
+
+  var originalSize = [[originalIcon frame] width];
+  var ratio = newSize / originalSize;
+  [newIcon multiplyBy:ratio];
+
+  [newIcon setName: newName];
+  [newIcon select:true byExpandingSelection:true];
+
+  return newIcon;
+}
