@@ -1,4 +1,13 @@
-AEIconizer
-==========
+#AEIconizer
+This plugin makes your life easy when you need to resize artwork for iOS app icon.
 
-Plugin for Bohemian Coding Sketch app
+![AEIconizer](http://tadija.net/public/AEIconizer.gif)
+
+> You can see it in more detail on [Vimeo](https://vimeo.com/tadija/aeiconizer).
+
+After creating icon in any square sized artboard,
+select any layer (or nothing if that's the only artboard on page),
+then run this plugin to generate all of the needed sizes for iOS.
+
+Plugin replaces all generated artboards every time it runs,
+but it will never delete your original artboard.
