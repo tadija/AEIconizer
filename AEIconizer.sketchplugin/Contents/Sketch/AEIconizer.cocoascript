@@ -6,18 +6,23 @@
 var iconSizes = [NSArray arrayWithObjects: 512, 76, 60, 40, 29, nil];
 
 // do stuff
-if (originalIcon = handleSelection()) {
-  if ([[originalIcon frame] width] == [[originalIcon frame] height]) {
-    [originalIcon setName: "Icon-Original"];
-    removeExistingIcons();
-    iconize(originalIcon);
-    [[doc currentView] centerLayersInCanvas];
-  } else {
-    [doc showMessage:"Oops, icon artboard must have same width and height"];
+function onRun(context) {
+  var doc = context.document;
+  if (originalIcon = handleSelection(context)) {
+    if ([[originalIcon frame] width] == [[originalIcon frame] height]) {
+      [originalIcon setName: "Icon-Original"];
+      removeExistingIcons(context);
+      iconize(originalIcon);
+      [[doc currentView] centerLayersInCanvas];
+    } else {
+      [doc showMessage:"Oops, icon artboard must have same width and height"];
+    }
   }
 }
 
-function handleSelection() {
+function handleSelection(context) {
+  var selection = context.selection;
+  var doc = context.document;
   var iconArtboard;
 
   if([selection count] == 0) {
@@ -42,7 +47,8 @@ function handleSelection() {
   return iconArtboard
 }
 
-function removeExistingIcons() {
+function removeExistingIcons(context) {
+  var doc = context.document;
   var artboards = [[doc currentPage] artboards];
   var loop = [artboards objectEnumerator];
   while (artboard = [loop nextObject]) {
