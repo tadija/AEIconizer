@@ -3,7 +3,7 @@
 // Version: 1.0
 
 // iOS icon sizes
-var iconSizes = [NSArray arrayWithObjects: 512, 76, 60, 40, 29, nil];
+var iconSizes = [NSArray arrayWithObjects: 512,98,86, 76, 60, 40, 29,24,27.5, nil];
 
 // do stuff
 function onRun(context) {
