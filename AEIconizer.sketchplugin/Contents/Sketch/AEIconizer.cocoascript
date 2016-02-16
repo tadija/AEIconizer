@@ -1,6 +1,5 @@
 // Sketch Plugin: AEIconizer (ctrl shift i)
 // Source: github.com/tadija/AEIconizer
-// Version: 1.0
 
 // iOS icon sizes
 var iTunesSizes = [NSArray arrayWithObjects: 512, nil];
@@ -10,166 +9,166 @@ var iconSizes = [NSArray arrayWithObjects: iTunesSizes, iOSSizes, watchOSSizes, 
 
 // iOS icon names
 var artboardNames = [NSArray arrayWithObjects:
-  "Icon-24", "Icon-24@2x", "Icon-24@3x", 
-  "Icon-27.5", "Icon-27.5@2x", "Icon-27.5@3x", 
-  "Icon-29", "Icon-29@2x", "Icon-29@3x", 
-  "Icon-40", "Icon-40@2x", "Icon-40@3x", 
-  "Icon-60", "Icon-60@2x", "Icon-60@3x", 
-  "Icon-76", "Icon-76@2x", "Icon-76@3x", 
-  "Icon-83.5", "Icon-83.5@2x", "Icon-83.5@3x", 
-  "Icon-86", "Icon-86@2x", "Icon-86@3x", 
-  "Icon-98", "Icon-98@2x", "Icon-98@3x", 
-  "iTunesArtwork-512", "iTunesArtwork-512@2x", nil];
+    "Icon-24", "Icon-24@2x", "Icon-24@3x", 
+    "Icon-27.5", "Icon-27.5@2x", "Icon-27.5@3x", 
+    "Icon-29", "Icon-29@2x", "Icon-29@3x", 
+    "Icon-40", "Icon-40@2x", "Icon-40@3x", 
+    "Icon-60", "Icon-60@2x", "Icon-60@3x", 
+    "Icon-76", "Icon-76@2x", "Icon-76@3x", 
+    "Icon-83.5", "Icon-83.5@2x", "Icon-83.5@3x", 
+    "Icon-86", "Icon-86@2x", "Icon-86@3x", 
+    "Icon-98", "Icon-98@2x", "Icon-98@3x", 
+    "iTunesArtwork-512", "iTunesArtwork-512@2x", nil];
 
 // do stuff
 function onRun(context) {
-  var doc = context.document;
-  if (originalIcon = handleSelection(context)) {
-    if ([[originalIcon frame] width] == [[originalIcon frame] height]) {
-      [originalIcon setName: "Icon-Original"];
-      removeExistingIcons(context);
-      iconize(originalIcon);
-      [[doc currentView] centerLayersInCanvas];
-    } else {
-      [doc showMessage:"Oops, icon artboard must have same width and height"];
+    var doc = context.document;
+    if (originalIcon = handleSelection(context)) {
+        if ([[originalIcon frame] width] == [[originalIcon frame] height]) {
+            [originalIcon setName: "Icon-Original"];
+            removeExistingIcons(context);
+            iconize(originalIcon);
+            [[doc currentView] centerLayersInCanvas];
+        } else {
+            [doc showMessage:"Oops, icon artboard must have same width and height"];
+        }
     }
-  }
 }
 
 function handleSelection(context) {
-  var selection = context.selection;
-  var doc = context.document;
-  var iconArtboard;
+    var selection = context.selection;
+    var doc = context.document;
+    var iconArtboard;
 
-  if([selection count] == 0) {
-    if ([[[doc currentPage] artboards] count] == 1) {
-      iconArtboard = [[[doc currentPage] artboards] firstObject];
+    if([selection count] == 0) {
+        if ([[[doc currentPage] artboards] count] == 1) {
+            iconArtboard = [[[doc currentPage] artboards] firstObject];
+        } else {
+            [doc showMessage:"Oops, you have to select something"];
+        }
     } else {
-      [doc showMessage:"Oops, you have to select something"];
+        var currentSelection = selection[0];
+        if (currentSelection.className() == "MSArtboardGroup") {
+            iconArtboard = currentSelection;
+        } else {
+            iconArtboard = [currentSelection parentArtboard];
+            if (!iconArtboard) {
+                [doc showMessage:"Oops, selection has to be inside artboard"];
+            }
+        }
+        [currentSelection setIsSelected:false];
     }
-  } else {
-    var currentSelection = selection[0];
-    if (currentSelection.className() == "MSArtboardGroup") {
-      iconArtboard = currentSelection;
-    } else {
-      iconArtboard = [currentSelection parentArtboard];
-      if (!iconArtboard) {
-        [doc showMessage:"Oops, selection has to be inside artboard"];
-      }
-    }
-    [currentSelection setIsSelected:false];
-  }
 
-  return iconArtboard
+    return iconArtboard
 }
 
 function removeExistingIcons(context) {
-  var doc = context.document;
-  var artboards = [[doc currentPage] artboards];
-  var loop = [artboards objectEnumerator];
-  while (artboard = [loop nextObject]) {
-    var name = [artboard name];
-    if ([artboardNames containsObject: name]) {
-      [[doc currentPage] removeLayer:artboard];
+    var doc = context.document;
+    var artboards = [[doc currentPage] artboards];
+    var loop = [artboards objectEnumerator];
+    while (artboard = [loop nextObject]) {
+        var name = [artboard name];
+        if ([artboardNames containsObject: name]) {
+            [[doc currentPage] removeLayer:artboard];
+        }
     }
-  }
 }
 
 function iconize(originalIcon) {
-  var originalSize = [[originalIcon frame] width];
-  var originalX = [[originalIcon absoluteRect] rulerX];
-  var originalY = [[originalIcon absoluteRect] rulerY];
-  var spacing = 40;
-  var iconsRowHeight = 0;
+    var originalSize = [[originalIcon frame] width];
+    var originalX = [[originalIcon absoluteRect] rulerX];
+    var originalY = [[originalIcon absoluteRect] rulerY];
+    var spacing = 40;
+    var iconsRowHeight = 0;
 
-  var i = 0;
-  var collections = [iconSizes objectEnumerator];
-  while (sizeCollection = [collections nextObject]) {
-    i++;
-    if (i == 1) {
-      var sizes = [sizeCollection objectEnumerator];
-      while (newSize = [sizes nextObject]) {
-        var iconName = "iTunesArtwork-" + newSize;
+    var i = 0;
+    var collections = [iconSizes objectEnumerator];
+    while (sizeCollection = [collections nextObject]) {
+        i++;
+        if (i == 1) {
+            var sizes = [sizeCollection objectEnumerator];
+            while (newSize = [sizes nextObject]) {
+                var iconName = "iTunesArtwork-" + newSize;
 
-        var newX = originalX;
-        var newY = originalY + originalSize + spacing;
+                var newX = originalX;
+                var newY = originalY + originalSize + spacing;
 
-        // iTunesArtwork-512@2x
-        var artwork2x = scaleIcon(originalIcon, (newSize * 2), iconName + "@2x");
-        [[artwork2x absoluteRect] setRulerX:newX];
-        [[artwork2x absoluteRect] setRulerY:newY];
+                // iTunesArtwork-512@2x
+                var artwork2x = scaleIcon(originalIcon, (newSize * 2), iconName + "@2x");
+                [[artwork2x absoluteRect] setRulerX:newX];
+                [[artwork2x absoluteRect] setRulerY:newY];
 
-        // iTunesArtwork-512
-        var artwork1x = scaleIcon(originalIcon, newSize, iconName);
-        [[artwork1x absoluteRect] setRulerX:newX + (newSize * 2) + spacing];
-        [[artwork1x absoluteRect] setRulerY:newY];
-      }
-    } else if (i == 2) {
-      var sizes = [sizeCollection objectEnumerator];
-      while (newSize = [sizes nextObject]) {
-        var iconName = "Icon-" + newSize;
+                // iTunesArtwork-512
+                var artwork1x = scaleIcon(originalIcon, newSize, iconName);
+                [[artwork1x absoluteRect] setRulerX:newX + (newSize * 2) + spacing];
+                [[artwork1x absoluteRect] setRulerY:newY];
+            }
+        } else if (i == 2) {
+            var sizes = [sizeCollection objectEnumerator];
+            while (newSize = [sizes nextObject]) {
+                var iconName = "Icon-" + newSize;
 
-        var newX = originalX + (1024 + 512 + (4 * spacing));
-        var newY = originalY + originalSize + iconsRowHeight + spacing;
+                var newX = originalX + (1024 + 512 + (4 * spacing));
+                var newY = originalY + originalSize + iconsRowHeight + spacing;
 
-        // Icon-Size@3x
-        var icon3x = scaleIcon(originalIcon, newSize * 3, iconName + "@3x");
-        [[icon3x absoluteRect] setRulerX:newX];
-        [[icon3x absoluteRect] setRulerY:newY];
+                // Icon-Size@3x
+                var icon3x = scaleIcon(originalIcon, newSize * 3, iconName + "@3x");
+                [[icon3x absoluteRect] setRulerX:newX];
+                [[icon3x absoluteRect] setRulerY:newY];
 
-        // Icon-Size@2x
-        var icon2x = scaleIcon(originalIcon, newSize * 2, iconName + "@2x");
-        [[icon2x absoluteRect] setRulerX:newX + (newSize * 3) + spacing];
-        [[icon2x absoluteRect] setRulerY:newY];
+                // Icon-Size@2x
+                var icon2x = scaleIcon(originalIcon, newSize * 2, iconName + "@2x");
+                [[icon2x absoluteRect] setRulerX:newX + (newSize * 3) + spacing];
+                [[icon2x absoluteRect] setRulerY:newY];
 
-        // Icon-Size
-        var icon1x = scaleIcon(originalIcon, newSize, iconName);
-        [[icon1x absoluteRect] setRulerX:newX + (newSize * 3) + (newSize * 2) + (2 * spacing)];
-        [[icon1x absoluteRect] setRulerY:newY];
+                // Icon-Size
+                var icon1x = scaleIcon(originalIcon, newSize, iconName);
+                [[icon1x absoluteRect] setRulerX:newX + (newSize * 3) + (newSize * 2) + (2 * spacing)];
+                [[icon1x absoluteRect] setRulerY:newY];
 
-        // create new row
-        iconsRowHeight += (newSize * 3) + spacing;
-      }
-    } else if (i = 3) {
-      var sizes = [sizeCollection objectEnumerator];
-      iconsRowHeight = 0;
-      while (newSize = [sizes nextObject]) {
-        var iconName = "Icon-" + newSize;
+                // create new row
+                iconsRowHeight += (newSize * 3) + spacing;
+            }
+        } else if (i = 3) {
+            var sizes = [sizeCollection objectEnumerator];
+            iconsRowHeight = 0;
+            while (newSize = [sizes nextObject]) {
+                var iconName = "Icon-" + newSize;
 
-        var newX = originalX + (1024 + 512 + 251 + 167 + 84 + (9 * spacing));
-        var newY = originalY + originalSize + iconsRowHeight + spacing;
+                var newX = originalX + (1024 + 512 + 251 + 167 + 84 + (9 * spacing));
+                var newY = originalY + originalSize + iconsRowHeight + spacing;
 
-        // Icon-Size@3x
-        var icon3x = scaleIcon(originalIcon, newSize * 3, iconName + "@3x");
-        [[icon3x absoluteRect] setRulerX:newX];
-        [[icon3x absoluteRect] setRulerY:newY];
+                // Icon-Size@3x
+                var icon3x = scaleIcon(originalIcon, newSize * 3, iconName + "@3x");
+                [[icon3x absoluteRect] setRulerX:newX];
+                [[icon3x absoluteRect] setRulerY:newY];
 
-        // Icon-Size@2x
-        var icon2x = scaleIcon(originalIcon, newSize * 2, iconName + "@2x");
-        [[icon2x absoluteRect] setRulerX:newX + (newSize * 3) + spacing];
-        [[icon2x absoluteRect] setRulerY:newY];
+                // Icon-Size@2x
+                var icon2x = scaleIcon(originalIcon, newSize * 2, iconName + "@2x");
+                [[icon2x absoluteRect] setRulerX:newX + (newSize * 3) + spacing];
+                [[icon2x absoluteRect] setRulerY:newY];
 
-        // Icon-Size
-        var icon1x = scaleIcon(originalIcon, newSize, iconName);
-        [[icon1x absoluteRect] setRulerX:newX + (newSize * 3) + (newSize * 2) + (2 * spacing)];
-        [[icon1x absoluteRect] setRulerY:newY];
+                // Icon-Size
+                var icon1x = scaleIcon(originalIcon, newSize, iconName);
+                [[icon1x absoluteRect] setRulerX:newX + (newSize * 3) + (newSize * 2) + (2 * spacing)];
+                [[icon1x absoluteRect] setRulerY:newY];
 
-        // create new row
-        iconsRowHeight += (newSize * 3) + spacing;
-      }
+                // create new row
+                iconsRowHeight += (newSize * 3) + spacing;
+            }
+        }
     }
-  }
 }
 
 function scaleIcon(originalIcon, newSize, newName) {
-  var newIcon = [originalIcon duplicate];
+    var newIcon = [originalIcon duplicate];
 
-  var originalSize = [[originalIcon frame] width];
-  var ratio = newSize / originalSize;
-  [newIcon multiplyBy:ratio];
+    var originalSize = [[originalIcon frame] width];
+    var ratio = newSize / originalSize;
+    [newIcon multiplyBy:ratio];
 
-  [newIcon setName: newName];
-  [newIcon select:true byExpandingSelection:true];
+    [newIcon setName: newName];
+    [newIcon select:true byExpandingSelection:true];
 
-  return newIcon;
+    return newIcon;
 }
