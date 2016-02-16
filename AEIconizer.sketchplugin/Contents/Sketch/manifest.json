@@ -14,7 +14,7 @@
     ]
   },
   "identifier": "net.tadija.sketch.AEIconizer",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Makes your life easy when you need to resize artwork for iOS app icon.",
   "authorEmail": "tadija@me.com",
   "name": "AEIconizer"
