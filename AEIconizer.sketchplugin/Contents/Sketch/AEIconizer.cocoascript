@@ -3,10 +3,20 @@
 // Version: 1.0
 
 // iOS icon sizes
-var iconSizes = [NSArray arrayWithObjects: 512, 83.5, 76, 60, 40, 29, nil];
+var iconSizes = [NSArray arrayWithObjects: 512, 98, 86, 83.5, 76, 60, 40, 29, 27.5, 24, nil];
 
 // iOS icon names
-var artboardNames = [NSArray arrayWithObjects:"Icon-29", "Icon-29@2x", "Icon-29@3x", "Icon-40", "Icon-40@2x", "Icon-40@3x", "Icon-60", "Icon-60@2x", "Icon-60@3x", "Icon-76", "Icon-76@2x", "Icon-76@3x", "Icon-83.5", "Icon-83.5@2x", "Icon-83.5@3x", "iTunesArtwork-512", "iTunesArtwork-512@2x" , nil];
+var artboardNames = [NSArray arrayWithObjects:
+  "Icon-24", "Icon-24@2x", "Icon-24@3x", 
+  "Icon-27.5", "Icon-27.5@2x", "Icon-27.5@3x", 
+  "Icon-29", "Icon-29@2x", "Icon-29@3x", 
+  "Icon-40", "Icon-40@2x", "Icon-40@3x", 
+  "Icon-60", "Icon-60@2x", "Icon-60@3x", 
+  "Icon-76", "Icon-76@2x", "Icon-76@3x", 
+  "Icon-83.5", "Icon-83.5@2x", "Icon-83.5@3x", 
+  "Icon-86", "Icon-86@2x", "Icon-86@3x", 
+  "Icon-98", "Icon-98@2x", "Icon-98@3x", 
+  "iTunesArtwork-512", "iTunesArtwork-512@2x", nil];
 
 // do stuff
 function onRun(context) {
