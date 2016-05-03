@@ -5,7 +5,8 @@
 var iTunesSizes = [NSArray arrayWithObjects: 512, nil];
 var iOSSizes = [NSArray arrayWithObjects: 83.5, 76, 60, 40, 29, nil];
 var watchOSSizes = [NSArray arrayWithObjects: 98, 86, 27.5, 24, nil];
-var iconSizes = [NSArray arrayWithObjects: iTunesSizes, iOSSizes, watchOSSizes, nil];
+var wirelessInstallSizes = [NSArray arrayWithObjects: 57, nil];
+var iconSizes = [NSArray arrayWithObjects: iTunesSizes, iOSSizes, watchOSSizes, wirelessInstallSizes, nil];
 
 // iOS icon names
 var artboardNames = [NSArray arrayWithObjects:
@@ -13,6 +14,7 @@ var artboardNames = [NSArray arrayWithObjects:
     "Icon-27.5", "Icon-27.5@2x", "Icon-27.5@3x", 
     "Icon-29", "Icon-29@2x", "Icon-29@3x", 
     "Icon-40", "Icon-40@2x", "Icon-40@3x", 
+	"Icon-57", "Icon-57@2x", "Icon-57@3x",
     "Icon-60", "Icon-60@2x", "Icon-60@3x", 
     "Icon-76", "Icon-76@2x", "Icon-76@3x", 
     "Icon-83.5", "Icon-83.5@2x", "Icon-83.5@3x", 
@@ -82,25 +84,15 @@ function iconize(originalIcon) {
     var startX = originalX;
     var startY = originalY + originalSize + spacing;
 
-    var i = 0;
     var allSizes = [iconSizes objectEnumerator];
     while (sizeArray = [allSizes nextObject]) {
-        if (i == 0) {
-            createIconsWithSizes(sizeArray, originalIcon, startX, startY, spacing);
-        } else if (i == 1) {
-            var fromX = startX + (1024 + 512 + (4 * spacing));
-            createIconsWithSizes(sizeArray, originalIcon, fromX, startY, spacing);
-        } else if (i = 2) {
-            var fromX = startX + (1024 + 512 + 251 + 167 + 84 + (9 * spacing));
-            createIconsWithSizes(sizeArray, originalIcon, fromX, startY, spacing);
-        }
-
-        i++;
+        startX = createIconsWithSizes(sizeArray, originalIcon, startX, startY, spacing);
     }
 }
 
 function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
     iconsRowHeight = 0;
+		maxX = 0
 
     var sizes = [sizeArray objectEnumerator];
     while (newSize = [sizes nextObject]) {
@@ -119,6 +111,8 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
             var artwork1x = scaleIcon(originalIcon, newSize, iconName);
             [[artwork1x absoluteRect] setRulerX:newX + (newSize * 2) + spacing];
             [[artwork1x absoluteRect] setRulerY:newY];
+			
+			maxX = [[artwork1x absoluteRect] x] + [[artwork1x absoluteRect] width]			
         } else {
             // Icon-Size@3x
             var icon3x = scaleIcon(originalIcon, newSize * 3, iconName + "@3x");
@@ -135,10 +129,17 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
             [[icon1x absoluteRect] setRulerX:newX + (newSize * 3) + (newSize * 2) + (2 * spacing)];
             [[icon1x absoluteRect] setRulerY:newY];
 
+			maxXRect = [[icon1x absoluteRect] x] + [[icon1x absoluteRect] width]
+			if ( maxXRect > maxX) {
+				maxX = maxXRect
+			}			
+
             // create new row
             iconsRowHeight += (newSize * 3) + spacing;
         }
     }
+	
+	return maxX + (3 * spacing)
 }
 
 function scaleIcon(originalIcon, newSize, newName) {
