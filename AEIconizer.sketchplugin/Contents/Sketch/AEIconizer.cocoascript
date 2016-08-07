@@ -3,13 +3,14 @@
 
 // iOS icon sizes
 var iTunesSizes = [NSArray arrayWithObjects: 512, nil];
-var iOSSizes = [NSArray arrayWithObjects: 83.5, 76, 60, 40, 29, nil];
+var iOSSizes = [NSArray arrayWithObjects: 83.5, 76, 60, 40, 29, 20, nil];
 var watchOSSizes = [NSArray arrayWithObjects: 98, 86, 27.5, 24, nil];
 var wirelessInstallSizes = [NSArray arrayWithObjects: 57, nil];
 var iconSizes = [NSArray arrayWithObjects: iTunesSizes, iOSSizes, watchOSSizes, wirelessInstallSizes, nil];
 
 // iOS icon names
 var artboardNames = [NSArray arrayWithObjects:
+    "Icon-20", "Icon-20@2x", "Icon-20@3x", 
     "Icon-24", "Icon-24@2x", "Icon-24@3x", 
     "Icon-27.5", "Icon-27.5@2x", "Icon-27.5@3x", 
     "Icon-29", "Icon-29@2x", "Icon-29@3x", 
