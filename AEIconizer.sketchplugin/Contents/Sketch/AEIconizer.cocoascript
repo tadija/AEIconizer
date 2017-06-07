@@ -70,6 +70,9 @@ function iconArtboardNames() {
         var sizes = [sizeArray objectEnumerator]
         while (newSize = [sizes nextObject]) {
             var iconName = "Icon-" + newSize
+            if (newSize == 83.5 || newSize == 27.5) {
+                iconName = "Icon-" + newSize + "@2x"
+            }
             [artboardNames addObject: iconName]
         }
     }
@@ -79,8 +82,8 @@ function iconArtboardNames() {
 
 function iconize(originalIcon) {
     var originalSize = [[originalIcon frame] width]
-    var originalX = [[originalIcon absoluteRect] rulerX]
-    var originalY = [[originalIcon absoluteRect] rulerY]
+    var originalX = [[originalIcon absoluteRect] x]
+    var originalY = [[originalIcon absoluteRect] y]
 
     var spacing = 40
     var startX = originalX
@@ -98,14 +101,24 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
 
     var sizes = [sizeArray objectEnumerator]
     while (newSize = [sizes nextObject]) {
-        var iconName = "Icon-" + newSize
+        var iconName = ""
+        var icon = originalIcon
 
-        var icon = scaleIcon(originalIcon, newSize, iconName)
-        configureExportOptionsForLayer(icon)
+        if (newSize == 83.5 || newSize == 27.5) {
+            iconName = "Icon-" + newSize + "@2x"
+            icon = scaleIcon(originalIcon, newSize * 2, iconName)
+            [[icon exportOptions] addExportFormat]
+        } else {
+            iconName = "Icon-" + newSize
+            icon = scaleIcon(originalIcon, newSize, iconName)
+            for (var i=0; i<3; i++) {
+                [[icon exportOptions] addExportFormat]
+            }
+        }
 
         if (newSize == 512) { 
-            [[icon absoluteRect] setRulerX:fromX]
-            [[icon absoluteRect] setRulerY:fromY]
+            [[icon absoluteRect] setX:fromX]
+            [[icon absoluteRect] setY:fromY]
 
             newY = [[icon absoluteRect] y]
         } 
@@ -114,8 +127,8 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
                maxX = fromX + 512 + spacing
             }
 
-            [[icon absoluteRect] setRulerX:maxX]
-            [[icon absoluteRect] setRulerY:fromY]
+            [[icon absoluteRect] setX:maxX]
+            [[icon absoluteRect] setY:fromY]
 
             maxX = [[icon absoluteRect] x] + [[icon absoluteRect] width] + spacing
 
@@ -141,10 +154,4 @@ function scaleIcon(originalIcon, newSize, newName) {
     [newIcon select:true byExpandingSelection:true]
 
     return newIcon
-}
-
-function configureExportOptionsForLayer(layer) {
-    [[layer exportOptions] addExportFormat]
-    [[layer exportOptions] addExportFormat]
-    [[layer exportOptions] addExportFormat]
 }
