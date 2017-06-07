@@ -14,6 +14,7 @@
     ]
   },
   "identifier": "net.tadija.sketch.AEIconizer",
+  "appcast": "https://github.com/tadija/AEIconizer/blob/master/AEIconizer.sketchplugin/Contents/Sketch/appcast.xml",
   "version": "2.2.2",
   "description": "Sketch plugin for automatic resize of iOS app icon artwork.",
   "authorEmail": "tadija@me.com",
