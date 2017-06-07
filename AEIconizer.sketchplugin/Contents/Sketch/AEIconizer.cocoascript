@@ -79,8 +79,8 @@ function iconArtboardNames() {
 
 function iconize(originalIcon) {
     var originalSize = [[originalIcon frame] width]
-    var originalX = [[originalIcon absoluteRect] rulerX]
-    var originalY = [[originalIcon absoluteRect] rulerY]
+    var originalX = [[originalIcon absoluteRect] x]
+    var originalY = [[originalIcon absoluteRect] y]
 
     var spacing = 40
     var startX = originalX
@@ -104,8 +104,8 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
         configureExportOptionsForLayer(icon)
 
         if (newSize == 512) { 
-            [[icon absoluteRect] setRulerX:fromX]
-            [[icon absoluteRect] setRulerY:fromY]
+            [[icon absoluteRect] setX:fromX]
+            [[icon absoluteRect] setY:fromY]
 
             newY = [[icon absoluteRect] y]
         } 
@@ -114,8 +114,8 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
                maxX = fromX + 512 + spacing
             }
 
-            [[icon absoluteRect] setRulerX:maxX]
-            [[icon absoluteRect] setRulerY:fromY]
+            [[icon absoluteRect] setX:maxX]
+            [[icon absoluteRect] setY:fromY]
 
             maxX = [[icon absoluteRect] x] + [[icon absoluteRect] width] + spacing
 
