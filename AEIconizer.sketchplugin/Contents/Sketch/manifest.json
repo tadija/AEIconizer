@@ -1,5 +1,11 @@
 {
+  "name": "AEIconizer",
+  "description": "Sketch plugin for automatic scaling of iOS app icon artwork in all needed sizes.",
+  "version": "2.3.0",
+  "identifier": "net.tadija.sketch.AEIconizer",
+  "appcast": "https://github.com/tadija/AEIconizer/blob/master/AEIconizer.sketchplugin/Contents/Sketch/appcast.xml",
   "author": "tadija",
+  "authorEmail": "tadija@me.com",
   "commands": [
     {
       "script": "AEIconizer.cocoascript",
@@ -12,11 +18,5 @@
     "items": [
       "AEIconizer"
     ]
-  },
-  "identifier": "net.tadija.sketch.AEIconizer",
-  "appcast": "https://github.com/tadija/AEIconizer/blob/master/AEIconizer.sketchplugin/Contents/Sketch/appcast.xml",
-  "version": "2.2.2",
-  "description": "Sketch plugin for automatic resize of iOS app icon artwork.",
-  "authorEmail": "tadija@me.com",
-  "name": "AEIconizer"
+  }
 }
