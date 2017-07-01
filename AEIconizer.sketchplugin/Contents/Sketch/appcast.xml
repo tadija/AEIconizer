@@ -3,8 +3,19 @@
   <channel>
     <title>AEIconizer</title>
     <link>https://github.com/tadija/AEIconizer</link>
-    <description>iOS app icon generator plugin for Bohemian Coding Sketch app</description>
+    <description>Sketch plugin for automatic scaling of iOS app icon artwork in all needed sizes</description>
     <language>en</language>
+      <item>
+        <title>Version 2.3.1</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>Minor fix for Sketch 45</li>
+            </ul>
+          ]]>
+        </description>
+        <enclosure url="https://github.com/tadija/AEIconizer/archive/2.3.1.zip" sparkle:version="2.3.1" />
+      </item>
       <item>
         <title>Version 2.3.0</title>
         <description>
