@@ -42,7 +42,7 @@ function handleSelection(context) {
                 [doc showMessage:"Oops, selection has to be inside artboard"]
             }
         }
-        [currentSelection setIsSelected:false]
+        currentSelection.isSelected = false
     }
 
     return iconArtboard
