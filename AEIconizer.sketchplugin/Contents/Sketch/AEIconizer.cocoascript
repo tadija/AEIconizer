@@ -104,7 +104,6 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
     while (newSize = [sizes nextObject]) {
         var iconName = ""
         var icon = originalIcon
-        var maxExport = 3
 
         if (newSize == 83.5 || newSize == 27.5) {
             iconName = "Icon-" + newSize + "@2x"
@@ -113,12 +112,11 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
         } else {
             iconName = "Icon-" + newSize
             icon = scaleIcon(originalIcon, newSize, iconName)
+            var maxExport = 3
 
-            // skip x3 only for mac os app icon
+            // skip @3x only for macOS app icon
             if (newSize == 256 || newSize == 128 || newSize == 32 || newSize == 16) {
                 maxExport = 2
-            } else {
-                maxExport = 3
             }
 
             for (var i=0; i<maxExport; i++) {
@@ -161,7 +159,7 @@ function scaleIcon(originalIcon, newSize, newName) {
     [newIcon multiplyBy:ratio]
 
     [newIcon setName: newName]
-    [newIcon select:true byExpandingSelection:true]
+    [newIcon select:true byExtendingSelection:true]
 
     return newIcon
 }
