@@ -124,12 +124,12 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
             }
         }
 
-        if (newSize == 512) { 
+        if (newSize == 512) {
             [[icon absoluteRect] setX:fromX]
             [[icon absoluteRect] setY:fromY]
 
             newY = [[icon absoluteRect] y]
-        } 
+        }
         else {
             if (maxX == 0) {
                maxX = fromX + 512 + spacing
@@ -159,7 +159,11 @@ function scaleIcon(originalIcon, newSize, newName) {
     [newIcon multiplyBy:ratio]
 
     [newIcon setName: newName]
-    [newIcon select:true byExtendingSelection:true]
+    if (MSApplicationMetadata.metadata().appVersion < 44) {
+        [newIcon select:true byExpandingSelection:true]
+    } else {
+        [newIcon select:true byExtendingSelection:true]
+    }
 
     return newIcon
 }
