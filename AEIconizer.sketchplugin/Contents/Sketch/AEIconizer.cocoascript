@@ -124,9 +124,15 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
             }
         }
 
-        if (newSize == 512) { 
+        if (newSize == 1024) {
             [[icon absoluteRect] setX:fromX]
             [[icon absoluteRect] setY:fromY]
+
+            newY = [[icon absoluteRect] y]
+        }
+        else if (newSize == 512) { 
+            [[icon absoluteRect] setX:fromX]
+            [[icon absoluteRect] setY:fromY+1024+spacing]
 
             newY = [[icon absoluteRect] y]
         } 
