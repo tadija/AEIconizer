@@ -1,7 +1,7 @@
 // Sketch Plugin: AEIconizer (ctrl shift i)
 // Source: github.com/tadija/AEIconizer
 
-var iTunesSizes = NSArray.arrayWithArray([512])
+var iTunesSizes = NSArray.arrayWithArray([1024, 512])
 var iOSSizes = NSArray.arrayWithArray([83.5, 76, 60, 40, 29, 20])
 var watchOSSizes = NSArray.arrayWithArray([98, 86, 27.5, 24])
 var otherSizes = NSArray.arrayWithArray([72, 57, 50])
@@ -124,9 +124,15 @@ function createIconsWithSizes(sizeArray, originalIcon, fromX, fromY, spacing) {
             }
         }
 
-        if (newSize == 512) { 
+        if (newSize == 1024) {
             [[icon absoluteRect] setX:fromX]
             [[icon absoluteRect] setY:fromY]
+
+            newY = [[icon absoluteRect] y]
+        }
+        else if (newSize == 512) { 
+            [[icon absoluteRect] setX:fromX]
+            [[icon absoluteRect] setY:fromY+1024+spacing]
 
             newY = [[icon absoluteRect] y]
         } 
