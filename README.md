@@ -12,4 +12,8 @@ then run this plugin to generate all of the needed sizes for iOS, watchOS and ma
 
 > You can see it in more detail on [Vimeo](https://vimeo.com/tadija/aeiconizer).
 
+## Installation
+
+Download this repository and double click on [AEIconizer.sketchplugin](AEIconizer.sketchplugin) file.
+
 `done for fun`
