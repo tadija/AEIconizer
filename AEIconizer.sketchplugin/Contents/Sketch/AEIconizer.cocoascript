@@ -163,12 +163,7 @@ function scaleIcon(originalIcon, newSize, newName) {
     [newIcon multiplyBy:ratio]
 
     [newIcon setName: newName]
-
-    if (MSApplicationMetadata.metadata().appVersion < 44) {
-        [newIcon select:true byExpandingSelection:true]
-    } else {
-        [newIcon select:true byExtendingSelection:true]
-    }
+    [newIcon select:true byExtendingSelection:true]
 
     return newIcon
 }
