@@ -6,6 +6,17 @@
     <description>Sketch plugin for automatic scaling of app icon artwork in all needed sizes (for iOS and macOS)</description>
     <language>en</language>
       <item>
+        <title>Version 2.4.3</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>Fix for Sketch Version 72</li>
+            </ul>
+          ]]>
+        </description>
+        <enclosure url="https://github.com/tadija/AEIconizer/archive/2.4.3.zip" sparkle:version="2.4.3" />
+      </item>
+      <item>
         <title>Version 2.4.2</title>
         <description>
           <![CDATA[
@@ -14,7 +25,7 @@
             </ul>
           ]]>
         </description>
-        <enclosure url="https://github.com/tadija/AEIconizer/archive/2.4.1.zip" sparkle:version="2.4.1" />
+        <enclosure url="https://github.com/tadija/AEIconizer/archive/2.4.2.zip" sparkle:version="2.4.2" />
       </item>
       <item>
         <title>Version 2.4.1</title>
